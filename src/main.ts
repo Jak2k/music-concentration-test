@@ -1,3 +1,4 @@
+import shuffle from "./shuffler";
 import "./style.scss";
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
@@ -17,24 +18,39 @@ You can also import other files to make the code more readable.
 
 // Define your variables and setters here
 
-gameData.counter = gameData.counter || 0;
-function setCounter(value: number) {
-  gameData.counter = value;
+gameData.score = gameData.score || 0;
+function setScore(score: number) {
+  gameData.score = score;
+  saveToLocalStorage();
+}
+
+gameData.numbers = gameData.numbers || [];
+function setNumbers(numbers: number[]) {
+  gameData.numbers = numbers;
+  saveToLocalStorage();
+}
+
+gameData.currentPosition = gameData.currentPosition || 0;
+function nextNumber() {
+  gameData.currentPosition++;
   saveToLocalStorage();
 }
 
 // Define your game functions here
 
 // Update the counter display
-function updateCounterDisplay() {
-  document.querySelector<HTMLParagraphElement>("#counterDisplay")!.innerText =
-    gameData.counter.toString();
+function clickOnNumber(clickedNumber: number) {
+  if (clickedNumber === gameData.numbers[gameData.currentPosition]) {
+    nextNumber();
+    setScore(gameData.score + 1);
+  } else {
+    setScore(gameData.score - 1);
+  }
 }
 
 // Event handler for the counter increment button
-function clickedCounterIncrementButton() {
-  setCounter(gameData.counter + 1);
-  updateCounterDisplay();
+function clickedNumberButton(e: MouseEvent) {
+  clickOnNumber(parseInt(e.target || 0));
 }
 
 function initGame() {
@@ -42,21 +58,24 @@ function initGame() {
   cleanUpGame();
 
   // Inject the game HTML
-  app.innerHTML =
-    "<p id='counterDisplay'></p> <button id='counterIncrementButton'>Start</button>";
+  app.innerHTML = "<p id='numberButtons'></p>";
 
-  // Add event listeners to the game elements
-  document
-    .querySelector<HTMLButtonElement>("#counterIncrementButton")!
-    .addEventListener("click", clickedCounterIncrementButton);
-  updateCounterDisplay();
+  // Generate the numbers
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  console.log(shuffle(numbers));
+
+  const numberButtons =
+    document.querySelector<HTMLDivElement>("#numberButtons")!;
+
+  gameData.numbers.map((num: number) => {
+    let element = document.createElement("button");
+    element.addEventListener("click", clickedNumberButton);
+    numberButtons.appendChild(element);
+  });
 }
 
 function cleanUpGame() {
   // Remove event listeners from the game elements
-  document
-    .querySelector<HTMLButtonElement>("#counterIncrementButton")
-    ?.removeEventListener("click", clickedCounterIncrementButton);
 }
 
 // Initialize the game (you should keep this)
