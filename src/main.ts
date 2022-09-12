@@ -50,7 +50,7 @@ function clickOnNumber(clickedNumber: number) {
 
 // Event handler for the counter increment button
 function clickedNumberButton(e: MouseEvent) {
-  clickOnNumber(parseInt(e.target || 0));
+  clickOnNumber(parseInt((e.target as HTMLButtonElement).innerHTML));
 }
 
 function initGame() {
@@ -58,17 +58,18 @@ function initGame() {
   cleanUpGame();
 
   // Inject the game HTML
-  app.innerHTML = "<p id='numberButtons'></p>";
+  app.innerHTML = `<p id='numberButtons'></p>`;
 
   // Generate the numbers
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  console.log(shuffle(numbers));
+  setNumbers(shuffle(numbers));
 
   const numberButtons =
     document.querySelector<HTMLDivElement>("#numberButtons")!;
 
   gameData.numbers.map((num: number) => {
     let element = document.createElement("button");
+    element.innerHTML = num.toString();
     element.addEventListener("click", clickedNumberButton);
     numberButtons.appendChild(element);
   });
