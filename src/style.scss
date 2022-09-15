@@ -6,12 +6,24 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 
   #app {
-    .title {
-      color: hsl(0, 0%, 100%);
-      font-size: 2.5em;
-      font-weight: bold;
-      text-align: center;
-      margin-top: 1em;
+    #score {
+      height: 1em;
+      margin: 0.1em;
+      font-size: 1em;
+    }
+    #game {
+      button {
+        width: 10vw;
+        height: 10vw;
+        font-size: 5vw;
+      }
+    }
+    button {
+      height: 2em;
+      font-size: 1em;
+      background-color: whitesmoke;
+      color: #000020;
+      border-radius: 0.5em;
     }
   }
 }

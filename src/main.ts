@@ -1,7 +1,12 @@
 import shuffle from "./shuffler";
 import "./style.scss";
 
-const app = document.querySelector<HTMLDivElement>("#app")!;
+var app = document.querySelector<HTMLDivElement>("#app")!;
+app.innerHTML = `<span id="score"></span><div id="game"></div><div id="control">Hi</div>`;
+
+var game = document.querySelector<HTMLDivElement>("#game")!;
+var control = document.querySelector<HTMLDivElement>("#control")!;
+control.innerHTML = `<button id="reset">Reset</button>`;
 
 function saveToLocalStorage() {
   localStorage.setItem("gameData", JSON.stringify(gameData));
@@ -22,6 +27,7 @@ gameData.score = gameData.score || 0;
 function setScore(score: number) {
   gameData.score = score;
   saveToLocalStorage();
+  setScoreDisplay();
 }
 
 gameData.numbers = gameData.numbers || [];
@@ -30,24 +36,43 @@ function setNumbers(numbers: number[]) {
   saveToLocalStorage();
 }
 
-gameData.currentPosition = gameData.currentPosition || 0;
-function nextNumber() {
-  gameData.currentPosition++;
+gameData.nextNumber = gameData.nextNumber || 1;
+function goToNextNumber() {
+  gameData.nextNumber++;
   saveToLocalStorage();
 }
 
 // Define your game functions here
 
-// Update the counter display
+function setScoreDisplay() {
+  const scoreDisplay = document.querySelector<HTMLDivElement>("#score")!;
+  scoreDisplay.innerText = gameData.score.toString();
+}
+
 function clickOnNumber(clickedNumber: number) {
-  if (clickedNumber === gameData.numbers[gameData.currentPosition]) {
-    nextNumber();
+  if (clickedNumber === gameData.nextNumber) {
+    goToNextNumber();
     setScore(gameData.score + 1);
+    gameData.nextNumber == 11 && continueGame();
   } else {
     setScore(gameData.score - 1);
   }
 }
 
+// Function for reseting the game
+function resetGame() {
+  gameData.nextNumber = 1;
+  setScore(0);
+  setScoreDisplay();
+  initGame();
+}
+
+function continueGame() {
+  gameData.nextNumber = 1;
+  initGame();
+}
+
+document.querySelector("#reset")!.addEventListener("click", resetGame);
 // Event handler for the counter increment button
 function clickedNumberButton(e: MouseEvent) {
   clickOnNumber(parseInt((e.target as HTMLButtonElement).innerHTML));
@@ -56,13 +81,15 @@ function clickedNumberButton(e: MouseEvent) {
 function initGame() {
   // Clean up the game if it was already initialized (e. g. if you have multiple levels)
   cleanUpGame();
+  setScoreDisplay();
 
   // Inject the game HTML
-  app.innerHTML = `<p id='numberButtons'></p>`;
+  game.innerHTML = `<p id='numberButtons'></p>`;
 
   // Generate the numbers
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   setNumbers(shuffle(numbers));
+  gameData.nextNumber = 1;
 
   const numberButtons =
     document.querySelector<HTMLDivElement>("#numberButtons")!;
@@ -77,6 +104,8 @@ function initGame() {
 
 function cleanUpGame() {
   // Remove event listeners from the game elements
+  game.innerHTML = `<p id="score" >${gameData.score}</p>`;
+  //document.querySelector("#reset")!.removeEventListener("click", resetGame);
 }
 
 // Initialize the game (you should keep this)
