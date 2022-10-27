@@ -53,7 +53,7 @@ function clickOnNumber(clickedNumber: number) {
   if (clickedNumber === gameData.nextNumber) {
     goToNextNumber();
     setScore(gameData.score + 1);
-    gameData.nextNumber == 11 && continueGame();
+    gameData.nextNumber == 10 && continueGame();
   } else {
     setScore(gameData.score - 1);
   }
@@ -87,7 +87,7 @@ function initGame() {
   game.innerHTML = `<p id='numberButtons'></p>`;
 
   // Generate the numbers
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   setNumbers(shuffle(numbers));
   gameData.nextNumber = 1;
 
@@ -99,6 +99,9 @@ function initGame() {
     element.innerHTML = num.toString();
     element.addEventListener("click", clickedNumberButton);
     numberButtons.appendChild(element);
+    var url = location.href; //Saving URL without hash.
+    location.href = "#numberButtons"; //Navigate to the target element.
+    history.replaceState(null, null, url);
   });
 }
 
