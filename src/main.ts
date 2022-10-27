@@ -101,6 +101,7 @@ function initGame() {
     numberButtons.appendChild(element);
     var url = location.href; //Saving URL without hash.
     location.href = "#numberButtons"; //Navigate to the target element.
+    // @ts-ignore
     history.replaceState(null, null, url);
   });
 }
