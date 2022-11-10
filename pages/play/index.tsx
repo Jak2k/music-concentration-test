@@ -1,9 +1,9 @@
-import Link from "next/link"
+import Link from "next/link";
 
 export default function Play() {
-    return (
-        <>
-        Play<br/>
-        </>
-    )
+  return (
+    <>
+      <h2>Play</h2>
+    </>
+  );
 }

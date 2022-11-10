@@ -1,7 +1,7 @@
 export default function Stats() {
-    return (
-        <>
-        Stats<br/>
-        </>
-    )
+  return (
+    <>
+      <h2>Stats</h2>
+    </>
+  );
 }
