@@ -6,8 +6,24 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+nav {
+  margin: 1em;
+  padding: 0.5em;
+  border-bottom: 0.1em solid black;
+}
+
+nav:has(a:hover) {
+  border-bottom: 0.1em solid #999;
+}
+
 a {
   color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: #999;
   text-decoration: none;
 }
 
@@ -23,4 +39,11 @@ a {
     color: white;
     background: black;
   }
+}
+
+.app {
+  margin: 1em;
+  background-color: hsl(0, 0%, 99%);
+  border-radius: 1em;
+  min-height: 50vh;
 }
