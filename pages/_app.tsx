@@ -4,15 +4,25 @@ import Link from "next/link";
 import styles from "../styles/Vercel.module.css";
 import Image from "next/image";
 
-export default function App({ Component, pageProps }: AppProps) {
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
+import { useState } from "react";
+import Navigation from "../Components/Navigation";
+
+export default function App({
+  Component,
+  pageProps,
+}: AppProps<{ initialSession: Session }>) {
+  const [supabase] = useState(() => createBrowserSupabaseClient());
   return (
-    <>
-      <nav>
-        <Link href="/">Home</Link>
-      </nav>
+    <SessionContextProvider
+      supabaseClient={supabase}
+      initialSession={pageProps.initialSession}
+    >
+      <Navigation />
       <div className="app">
         <Component {...pageProps} />
       </div>
-    </>
+    </SessionContextProvider>
   );
 }

@@ -1,0 +1,15 @@
+.nav {
+  display: flex;
+  margin: 1em;
+  padding: 0.5em;
+  border-bottom: 0.1em solid black;
+  gap: 0.5em;
+}
+
+.nav:has(a:hover) {
+  border-bottom: 0.1em solid #999;
+}
+
+.userinfo {
+  margin-left: auto;
+}
